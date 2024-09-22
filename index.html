@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bad-code-converter</title>
+    <link rel="icon" href="use.ico">
+</head>
+<body>
+
+    <h1>Bad code converter</h1>
+
+    <label for="inputCode">クソコードにする前のJSコード:</label><br>
+    <textarea id="inputCode" rows="10" cols="50"></textarea><br><br>
+
+    <button id="convertButton">クソコードに変換する</button><br><br>
+
+    <label for="outputCode">クソコード:</label><br>
+    <textarea id="outputCode" rows="10" cols="50" readonly></textarea><br>
+
+    <br>
+    <button onclick="downloadJS()">ファイルとしてダウンロード</button><br>
+    <!-- <button id="DoKusoCode">クソコードの実行</button> -->
+    <button onclick="runCode()">実行</button>
+    <div id="result"></div>
+
+    <script>
+        function runCode() {
+            const code = document.getElementById("outputCode").value;
+            try {
+                const result = eval(code); // eval関数を使ってコードを実行
+                document.getElementById("result").innerText = "実行結果: " + result;
+            } catch (error) {
+                document.getElementById("result").innerText = "エラー: " + error;
+            }
+        }
+    </script>
+
+    <!-- ファイルダウンロード -->
+    <script>
+        function downloadJS() {
+            const code = document.getElementById("outputCode").value;
+            const blob = new Blob([code], { type: 'text/javascript' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'ConvertToBADscript.js';  // ダウンロードするファイル名
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);  // 後処理でリンクを削除
+        }
+    </script>
+    <script src="converter.js"></script>
+    <script src="test.js"></script>
+</body>
+</html>
